@@ -1,11 +1,12 @@
 #!/usr/bin/env groovy
 
 /* groovylint-disable-next-line MethodReturnTypeRequired, NoDef */
-def call() {
+def call(String dockerImage) {
     echo 'building docker Image and push to docker hub ......'
+    /* groovylint-disable-next-line LineLength */
     withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-        sh 'docker build -t umagloire/demo-app:2.0 .'
+        sh "docker build -t $dockerImage ."
         sh 'echo $PASS | docker login -u $USER --password-stdin'
-        sh 'docker push umagloire/demo-app:2.0'
+        sh "docker push $dockerImage"
     }
 }
