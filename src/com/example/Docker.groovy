@@ -14,7 +14,7 @@ class Docker implements Serializable {
     /* groovylint-disable-next-line LineLength */
        script.withCredentials([script.usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
             script.sh "docker build -t $imageName ."
-            script.sh 'echo $script.PASS | docker login -u $script.USER --password-stdin'
+            script.sh "echo $script.PASS | docker login -u $script.USER --password-stdin"
             script.sh "docker push $imageName"
         }
     }
