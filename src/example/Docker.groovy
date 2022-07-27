@@ -1,7 +1,7 @@
 package com.example
 
-/* groovylint-disable-next-line ClassJavadoc, CompileStatic, EmptyClass */
 class Docker implements Serializable {
+
 
     def script
 
