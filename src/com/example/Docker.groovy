@@ -5,18 +5,26 @@ class Docker implements Serializable {
 
     def script
 
+    /* groovylint-disable-next-line MethodParameterTypeRequired */
     Docker(script) {
         this.script = script
     }
 
+    /* groovylint-disable-next-line NoDef */
     def buildImage(String imageName) {
-        script.echo 'building docker Image and push to docker hub ......'
-    /* groovylint-disable-next-line LineLength */
-       script.withCredentials([script.usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-            script.sh "docker build -t $imageName ."
+        script.echo 'building docker Image ......'
+        script.sh "docker build -t $imageName ."
+    }
+
+    def dockerLogin() {
+         script.withCredentials([script.usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
             script.sh "echo $script.PASS | docker login -u $script.USER --password-stdin"
-            script.sh "docker push $imageName"
         }
     }
 
+    /* groovylint-disable-next-line DuplicateStringLiteral */
+    def pusherDocker(String imageName) {
+        script.echo 'Pushing to docker hub ......'
+        script.sh "docker push $imageName"
+    }
 }
